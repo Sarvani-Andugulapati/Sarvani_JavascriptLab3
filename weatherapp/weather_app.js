@@ -1,4 +1,4 @@
-import { WeatherApi } from "./weather/weather.js";
+import { WeatherApi } from "./weather.js";
 
 class WeatherApp {
     init() {
@@ -13,7 +13,7 @@ class WeatherApp {
         searchBoxele.addEventListener("keypress", this.handleEvent);
     }
 
-    handleEvent(event) {
+     handleEvent(event) {
 
         console.log("inside event handler");
 
@@ -31,19 +31,21 @@ class WeatherApp {
 
             weatherApi.invoke().then((invresponse) => {
 
-                weatherAppObj.updateUIelements(invresponse);
+                 weatherAppObj.updateUIelements(invresponse);
 
-            });
+            });        
 
         }
 
     }
     updateUIelements(weatherJSON) {
 
-        const cityElement = document.querySelector(".location .city")
+        console.log(weatherJSON);
+
+        const cityElement = document.querySelector(".Location .city")
         cityElement.innerText = `${weatherJSON.name}, ${weatherJSON.sys.country}`;
 
-        const dateElement = document.querySelector(".location .date")
+        const dateElement = document.querySelector(".weatherform .Location .date")
         const now = new Date();
         const dateAsString = now.toLocaleDateString("en-US", {
             weekday: 'long',
@@ -55,12 +57,12 @@ class WeatherApp {
         console.log("Date as String " + dateAsString);
         dateElement.innerHTML = `${dateAsString}`;
 
-        const temperatureElement = document.querySelector(".current .temp")
+        const temperatureElement = document.querySelector(".weatherform .current .temp")
         temperatureElement.innerHTML = `${weatherJSON.main.temp} °c`;
-        const highLowElement = document.querySelector(".current .hi-low")
+        const highLowElement = document.querySelector(".weatherform .current .hi-low")
         highLowElement.innerHTML = `${weatherJSON.main.temp_max}°c / ${weatherJSON.main.temp_min}°c`;
 
-        const weatherele = document.querySelector(".current .weather");
+        const weatherele = document.querySelector(".weatherform .current .weather");
         const weathervalue = weatherJSON.weather[0].main;
         weatherele.innerText = weathervalue;
 
